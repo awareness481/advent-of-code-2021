@@ -11,25 +11,29 @@ async fn main() {
     .await;
     let formatted_input = input.split('\n').collect::<Vec<&str>>();
 
+    let mut aim = 0;
     let mut horizontal = 0;
     let mut depth = 0;
 
-    for i in 0..formatted_input.len() - 1 {
-        let instructions = formatted_input[i].split(' ').collect::<Vec<&str>>();
+    for item in &formatted_input {
+        let instructions = item.split(' ').collect::<Vec<&str>>();
 
         if instructions[0] == "forward" {
-            horizontal += instructions[1].parse::<i32>().unwrap();
+            let x = instructions[1].parse::<i32>().unwrap();
+            horizontal += x;
+            depth += aim * x;
         } else if instructions[0] == "up" {
-            depth -= instructions[1].parse::<i32>().unwrap();
+            aim -= instructions[1].parse::<i32>().unwrap();
         } else if instructions[0] == "down" {
-            depth += instructions[1].parse::<i32>().unwrap();
+            aim += instructions[1].parse::<i32>().unwrap();
         }
     }
 
     println!(
-        "horizontal: {}, depth: {}, multiplication: {}",
+        "horizontal: {}, depth: {}, aim {}, multiplication: {}",
         horizontal,
         depth,
+        aim,
         horizontal * depth
     );
 }
